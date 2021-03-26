@@ -1,0 +1,62 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+using UnityEngine;
+using UnityEngine.UI;
+
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ImageScriptableObject", order = 1)]
+
+public class ImageScriptableObject : ScriptableObject
+{
+    private String name;
+    private String category;
+    private List<String> terms;
+    private bool isCorrect;
+    private RawImage image;
+    private String helpText;
+
+    public void Setup(String name, string category, List<String> terms, bool isCorrect, RawImage image, String helpText)
+    {
+        this.name = name;
+        this.category = category;
+        this.terms = terms;
+        this.isCorrect = isCorrect;
+        this.image = image;
+        this.helpText = helpText;
+    }
+
+    public String GetName()
+    {
+        return name;
+    }
+
+    public String GetCategory()
+    {
+        return category;
+    }
+
+    public List<String> GetTerms()
+    {
+        return terms;
+    }
+
+    public bool GetIsCorrect()
+    {
+        return isCorrect;
+    }
+
+    public RawImage GetImage()
+    {
+        return image;
+    }
+
+    public String GetHelpText()
+    {
+        return helpText;
+    }
+
+
+
+}
