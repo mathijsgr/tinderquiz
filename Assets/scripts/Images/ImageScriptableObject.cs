@@ -2,57 +2,48 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ImageScriptableObject", order = 1)]
 
 public class ImageScriptableObject : ScriptableObject
 {
-    private String name;
-    private String category;
-    private List<String> terms;
-    private bool isCorrect;
-    private RawImage image;
-    private String helpText;
+    public string imageName;
+    public List<string> terms;
+    public List<string> ignoreTerms;
+    public Sprite image;
+    public string helpText;
 
-    public void Setup(String name, string category, List<String> terms, bool isCorrect, RawImage image, String helpText)
+    public void Setup(string imageName, List<string> terms, List<string> ignoreTerms, Sprite image, string helpText)
     {
-        this.name = name;
-        this.category = category;
+        this.imageName = imageName;
         this.terms = terms;
-        this.isCorrect = isCorrect;
+        this.ignoreTerms = ignoreTerms;
         this.image = image;
         this.helpText = helpText;
     }
 
-    public String GetName()
+    public string GetImageName()
     {
-        return name;
+        return imageName;
     }
 
-    public String GetCategory()
-    {
-        return category;
-    }
-
-    public List<String> GetTerms()
+    public List<string> GetTerms()
     {
         return terms;
     }
 
-    public bool GetIsCorrect()
+    public List<string> GetIgnoreTerms()
     {
-        return isCorrect;
+        return ignoreTerms;
     }
 
-    public RawImage GetImage()
+    public Sprite GetImage()
     {
         return image;
     }
 
-    public String GetHelpText()
+    public string GetHelpText()
     {
         return helpText;
     }

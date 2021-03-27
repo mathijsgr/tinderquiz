@@ -8,49 +8,41 @@ namespace Assets.scripts.Images
 {
     public class ImageCard : MonoBehaviour
     {
-        private String name;
-        private String category;
-        private List<String> terms;
-        private bool isCorrect;
-        private RawImage image;
-        private String helpText;
+        private string imageName;
+        private List<string> terms;
+        private List<string> ignoreTerms;
+        private Sprite image;
+        private string helpText;
 
-        public ImageCard(String name, string category, List<String> terms, bool isCorrect, RawImage image, String helpText)
+        public ImageCard(string imageName, List<string> terms, List<string> ignoreTerms, Sprite image, string helpText)
         {
-            this.name = name;
-            this.category = category;
+            this.imageName = imageName;
             this.terms = terms;
-            this.isCorrect = isCorrect;
+            this.ignoreTerms = ignoreTerms;
             this.image = image;
             this.helpText = helpText;
         }
 
-        public String GetName()
+        public string GetImageName()
         {
-            return name;
+            return imageName;
         }
 
-        public String GetCategory()
-        {
-            return category;
-        }
-
-        public List<String> GetTerms()
+        public List<string> GetTerms()
         {
             return terms;
         }
-
-        public bool GetIsCorrect()
+        public List<string> GetIgnoreTerms()
         {
-            return isCorrect;
+            return ignoreTerms;
         }
 
-        public RawImage GetImage()
+        public Sprite GetImage()
         {
             return image;
         }
 
-        public String GetHelpText()
+        public string GetHelpText()
         {
             return helpText;
         }

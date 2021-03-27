@@ -40,7 +40,7 @@ public class GameLogic : MonoBehaviour
 
     public void CheckAnswer(ImageCard currentImage, bool isCorrect)
     {
-        if (currentImage.GetIsCorrect() == isCorrect)
+        if (currentImage == isCorrect)
         {
             score.AddPoints();
         }
