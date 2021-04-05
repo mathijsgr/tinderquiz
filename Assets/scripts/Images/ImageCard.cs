@@ -11,10 +11,10 @@ namespace Assets.scripts.Images
         private string imageName;
         private List<string> terms;
         private List<string> ignoreTerms;
-        private Sprite image;
+        private Texture2D image;
         private string helpText;
 
-        public ImageCard(string imageName, List<string> terms, List<string> ignoreTerms, Sprite image, string helpText)
+        public void setup(string imageName, List<string> terms, List<string> ignoreTerms, Texture2D image, string helpText)
         {
             this.imageName = imageName;
             this.terms = terms;
@@ -37,7 +37,7 @@ namespace Assets.scripts.Images
             return ignoreTerms;
         }
 
-        public Sprite GetImage()
+        public Texture2D GetImage()
         {
             return image;
         }

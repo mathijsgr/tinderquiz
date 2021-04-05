@@ -1,14 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class Score : MonoBehaviour
 {
-    private static Score instance = new Score();
+    private static Score instance;
 
-    private int score;
-    private int hintCost;
+    private int score = 0;
+    private int hintCost = 0;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public static Score GetInstance()
     {

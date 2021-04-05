@@ -28,6 +28,7 @@ public class TouchControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetMouseButtonDown(0))
         {
             delta = image.transform.position - Input.mousePosition;
@@ -62,6 +63,7 @@ public class TouchControl : MonoBehaviour
                 }
             }
         }
+        */
     }
 
     public void UpdateImage(RawImage image)
