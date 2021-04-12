@@ -9,12 +9,12 @@ namespace Assets.scripts.Images
     public class ImageCard : MonoBehaviour
     {
         private string imageName;
-        private List<string> terms;
-        private List<string> ignoreTerms;
-        private Texture2D image;
+        public List<string> terms;
+        public List<string> ignoreTerms;
+        private Sprite image;
         private string helpText;
 
-        public void setup(string imageName, List<string> terms, List<string> ignoreTerms, Texture2D image, string helpText)
+        public void setup(string imageName, List<string> terms, List<string> ignoreTerms, Sprite image, string helpText)
         {
             this.imageName = imageName;
             this.terms = terms;
@@ -37,7 +37,7 @@ namespace Assets.scripts.Images
             return ignoreTerms;
         }
 
-        public Texture2D GetImage()
+        public Sprite GetImage()
         {
             return image;
         }

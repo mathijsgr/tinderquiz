@@ -13,12 +13,15 @@ public class ImageCardBuilder : MonoBehaviour
 
     public TextAsset SettingsTextAsset;
     private List<Tuple<string, List<string>>> categories = new List<Tuple<string, List<string>>>();
-    private List<string> rawCategories = new List<string>();
-    private List<string> terms = new List<string>();
+    public List<string> rawCategories = new List<string>();
+    public List<string> terms = new List<string>();
+    public List<Texture2D> texture2Ds;
+    private int maxRetries = 100;
+    private int currentTries;
     //private List<string> imageInfos = new List<string>();
 
-    private int categoriesIndex = 1;
-    private int termsIndex = 2;
+    private int categoriesIndex = 0;
+    private int termsIndex = 1;
 
     private void Awake()
     {
@@ -32,8 +35,24 @@ public class ImageCardBuilder : MonoBehaviour
 
     private ImageCard CreateMyAsset(string helpText, string[] words, string pickedCategory)
     {
-        Texture2D image = Resources.Load<Texture2D>("Images/" + words[0]);
-        string imagename = words[0].Substring(4);
+        Texture2D image2D = Resources.Load<Texture2D>("Images/" + words[0]);
+        if (image2D == null)
+        {
+            Debug.Log("not found");
+            if (currentTries < maxRetries)
+            {
+                currentTries++;
+                return CreateMyAsset(helpText, words, pickedCategory);
+            }
+            else
+            {
+                currentTries = 0;
+                GameLogic.GetInstance().CrashHandler();
+                return null;
+            }
+        }
+        Sprite image = Sprite.Create(image2D, new Rect(0.0f, 0.0f, image2D.width, image2D.height), new Vector2(0.5f, 0.5f), 100.0f);
+        string imagename = words[0];
         Tuple<List<string>, List<string>> TermsLists = CreateTermsListsForImageCard(words, pickedCategory);
         GameObject imageCardGameOject = new GameObject
         {
@@ -42,8 +61,8 @@ public class ImageCardBuilder : MonoBehaviour
         ImageCard imageCard = imageCardGameOject.AddComponent<ImageCard>();
         imageCard.setup(imagename, TermsLists.Item1, TermsLists.Item2, image, helpText);
 
-        RawImage rawImage = imageCardGameOject.AddComponent<RawImage>();
-        rawImage.texture = image;
+        Image rawImage = imageCardGameOject.AddComponent<Image>();
+        rawImage.sprite = image;
 
         imageCardGameOject.SetActive(false);
 
@@ -52,14 +71,20 @@ public class ImageCardBuilder : MonoBehaviour
 
     private string GetTextAssetContent()
     {
-        StreamReader sr = new StreamReader(Application.dataPath + "/" + SettingsTextAsset.name + ".txt");
-        string fileContents = sr.ReadToEnd();
-        sr.Close();
+        string fileContents = Resources.Load<TextAsset>(SettingsTextAsset.name).ToString();
         return fileContents;
+    }
+
+    private void ClearAll()
+    {
+        categories = new List<Tuple<string, List<string>>>();
+        rawCategories = new List<string>();
+        terms = new List<string>();
     }
 
     public List<ImageCard> CreateImageCards(string pickedCategory)
     {
+        ClearAll();
         List<ImageCard> imageCards = new List<ImageCard>();
         string[] lines = GetTextAssetContent().Split("\n"[0]);
         for (int i = categoriesIndex; i < lines.Length;i++)
@@ -68,17 +93,17 @@ public class ImageCardBuilder : MonoBehaviour
             if (i == categoriesIndex)
             {
                 string lastword = "";
-                foreach (string word in words)
+                for (int j = 0; j < words.Length; j++)
                 {
-                    if (word != "")
+                    if (words[j] != "")
                     {
-                        rawCategories.Add(word);
+                        rawCategories.Add(words[j]);
                     }
-                    if (word != lastword)
+                    if (words[j] != lastword)
                     {
-                        categories.Add(new Tuple<string, List<string>>(word,null));
+                        categories.Add(new Tuple<string, List<string>>(words[j], null));
                     }
-                    lastword = word;
+                    lastword = words[j];
                 }
                 categories.RemoveAt(categories.Count -1);
             }
@@ -107,12 +132,12 @@ public class ImageCardBuilder : MonoBehaviour
         List<string> localTerms = new List<string>();
         List<string> localIgnoreTerms = new List<string>();
 
-        for (int k = 0; k < rawCategories.Count; k++)
+        for (int i = 0; i < rawCategories.Count; i++)
         {
-            if (pickedCategory == rawCategories[k])
+            if (pickedCategory == rawCategories[i])
             {
-                if (words[k] == "1") localTerms.Add(terms[k]);
-                if (words[k] == "x") localIgnoreTerms.Add(terms[k]);
+                if (words[i +1] == "1") localTerms.Add(terms[i]);
+                if (words[i +1] == "x") localIgnoreTerms.Add(terms[i]);
             }
         }
 

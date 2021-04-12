@@ -19,7 +19,7 @@ public class Score : MonoBehaviour
 
     public void AddPoints()
     {
-        score += 10;
+        score += 1;
     }
 
     public void SubtractPoints()
@@ -30,6 +30,11 @@ public class Score : MonoBehaviour
     public int GetScore()
     {
         return score;
+    }
+
+    public void ClearScore()
+    {
+        score = 0;
     }
 
     public int GetHintCost()

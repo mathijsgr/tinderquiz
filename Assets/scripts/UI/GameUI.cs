@@ -11,7 +11,7 @@ public class GameUI : MonoBehaviour
     private Score score;
 
     //image stuff
-    public RawImage ImageHolder;
+    public Image ImageHolder;
 
     //canvas
     public GameObject GameUICanvas;
@@ -19,18 +19,31 @@ public class GameUI : MonoBehaviour
 
     //texts
     public Text ScoreText;
-    public Text ThemeText;
+    public Text CategoryText;
     public Text TermText;
+    public Text TitleText;
 
     //buttons
     public Button YesButton;
     public Button NoButton;
+    public Button HomeButton;
+
+    public GameObject GameCompletedPanel;
+    public Button PlayAgainYesButton;
+    public Button PlayAgainNoButton;
+    public Text FinalScoreText;
+
+    //prevent too fast clicking
+    public bool IsButtonsLocked;
 
     private void Awake()
     {
         instance = this;
         NoButton.onClick.AddListener(NoButtonClick);
         YesButton.onClick.AddListener(YesButtonClick);
+        HomeButton.onClick.AddListener(HomeButtonClick);
+        PlayAgainYesButton.onClick.AddListener(PlayAgainYesButtonClick);
+        PlayAgainNoButton.onClick.AddListener(PlayAgainNoButtonClick);
     }
 
     private void Start()
@@ -46,9 +59,11 @@ public class GameUI : MonoBehaviour
 
     public void SetNewInfo(ImageCard currentImage, string term)
     {
-        ImageHolder.texture = currentImage.GetImage();
-        TermText.text = term;
+        ImageHolder.sprite = currentImage.GetImage();
+        SetTermText(term);
+        SetTitleText(currentImage.GetImageName());
         SetScoreText();
+        SetIsButtonsLocked(false);
     }
 
     //swiped left or right
@@ -73,10 +88,30 @@ public class GameUI : MonoBehaviour
         }
     }
 
-    public void SetScoreText()
+    public void SetIsButtonsLocked(bool setLock)
+    {
+        IsButtonsLocked = setLock;
+    }
+
+    private void SetScoreText()
     {
         ScoreText.text = "Score: " + Score.GetInstance().GetScore();
     }
+
+    private void SetTermText(string term)
+    {
+        TermText.text = term;
+    }
+    public void SetCategoryText(string category)
+    {
+        CategoryText.text = category;
+    }
+
+    private void SetTitleText(string title)
+    {
+        TitleText.text = title;
+    }
+
 
     public void ShowHelpUI()
     {
@@ -85,7 +120,25 @@ public class GameUI : MonoBehaviour
 
     public void ShowGameCompletedUI()
     {
+        GameCompletedPanel.SetActive(true);
+        FinalScoreText.text = "Eind score: " + score.GetScore();
+        //PlayAgainYesButton.onClick.AddListener(PlayAgainYesButtonClick);
+        //PlayAgainNoButton.onClick.AddListener(PlayAgainNoButtonClick);
+    }
 
+    private void PlayAgainYesButtonClick()
+    {
+        gameLogic.Replay();
+        //PlayAgainYesButton.onClick.RemoveListener(PlayAgainYesButtonClick);
+        GameCompletedPanel.SetActive(false);
+    }
+
+    private void PlayAgainNoButtonClick ()
+    {
+        GameUICanvas.SetActive(false);
+        //PlayAgainNoButton.onClick.RemoveListener(PlayAgainNoButtonClick);
+        GameCompletedPanel.SetActive(false);
+        MenuUI.GetInstance().ShowMenuUICanvas();
     }
 
     public void ShowCorrectUI()
@@ -100,12 +153,27 @@ public class GameUI : MonoBehaviour
 
     private void NoButtonClick()
     {
-        gameLogic.CheckAnswer(false);
+        if (!IsButtonsLocked) gameLogic.CheckAnswer(false);
     }
 
     private void YesButtonClick()
     {
-        gameLogic.CheckAnswer(true);
+        if(!IsButtonsLocked) gameLogic.CheckAnswer(true);
+    }
+    public void ShowGameUICanvas()
+    {
+        GameUICanvas.SetActive(true);
+    }
+    public void HideGameUICanvas()
+    {
+        GameUICanvas.SetActive(false);
+    }
+
+    private void HomeButtonClick()
+    {
+        gameLogic.ClearImages();
+        HideGameUICanvas();
+        MenuUI.GetInstance().ShowMenuUICanvas();
     }
 
 

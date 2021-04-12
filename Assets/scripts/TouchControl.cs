@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +8,7 @@ public class TouchControl : MonoBehaviour
     // Start is called before the first frame update
 
     //imagedrag
-    public RawImage image;
+    public Image image;
     public GameObject Border;
     private Vector3 imageCenter;
     private float speed = 8f;
@@ -22,19 +21,19 @@ public class TouchControl : MonoBehaviour
 
     void Start()
     {
-        UpdateImage(image);
+       // UpdateImage(image);
     }
 
     // Update is called once per frame
     void Update()
     {
         /*
-        if (Input.GetMouseButtonDown(0))
+        if ()
         {
             delta = image.transform.position - Input.mousePosition;
         }
 
-        if (Input.GetMouseButton(0))
+        if ()
         {
 
             Vector3 newPos = Input.mousePosition + delta;
@@ -66,7 +65,7 @@ public class TouchControl : MonoBehaviour
         */
     }
 
-    public void UpdateImage(RawImage image)
+    public void UpdateImage(Image image)
     {
         this.image = image;
         imageCenter = image.transform.position;
