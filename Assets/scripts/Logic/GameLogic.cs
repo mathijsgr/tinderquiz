@@ -1,143 +1,168 @@
 using System.Collections.Generic;
+using System.Linq;
 using Assets.scripts.Images;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameLogic : MonoBehaviour
 {
-    private static GameLogic instance;
+    private static GameLogic _instance;
     private Score score;
     private List<ImageCard> images;
     private ImageCard currentImage;
-    private List<string> terms;
+    private Category currentCategory;
     private string currentTerm;
-    private string category;
-    private GameUI gameUI;
+    private GameUI gameUi;
     private ImageCardBuilder imageCardBuilder;
+    private SaveLoad saveLoad;
+    private Categories categories;
+
     private void Awake()
     {
-        instance = this;
+        _instance = this;
     }
-    private void Start()
+
+    public void Setup()
     {
         score = Score.GetInstance();
-        gameUI = GameUI.GetInstance();
-        MenuUI.GetInstance().ShowMenuUICanvas();
+        gameUi = GameUI.GetInstance();
+        saveLoad = SaveLoad.GetInstance();
+        MenuUI.GetInstance().ShowMenuUiCanvas();
         imageCardBuilder = ImageCardBuilder.GetInstance();
+        categories = Categories.GetInstance();
+
+        List<Category> lCategories = saveLoad.LoadCategories();
+        if (lCategories.Count > 0)
+        {
+            categories.CategoriesList = lCategories;
+        }
+        else categories.CategoriesList = imageCardBuilder.BuildListOfAllCategoriesWithTerms();
+
+        images = imageCardBuilder.CreateImageCards();
     }
 
     public static GameLogic GetInstance()
     {
-        return instance;
+        return _instance;
     }
 
-    public void NewGame (string category)
+    public void NewGame(string category)
     {
-        gameUI.ShowGameUICanvas();
-        score.ClearScore();
-        images = imageCardBuilder.CreateImageCards(category);
-        terms = imageCardBuilder.GetTermsListForCategory(category);
-        this.category = category;
-        gameUI.SetCategoryText(category);
-        NextImage();
-    }
-
-    public void CrashHandler ()
-    {
-        gameUI.HideGameUICanvas();
-        MenuUI.GetInstance().ShowMenuUICanvas();
-    }
-
-    public void Replay()
-    {
-        ClearImages();
-        gameUI.ShowGameUICanvas();
-        score.ClearScore();
-        images = imageCardBuilder.CreateImageCards(category);
-        terms = imageCardBuilder.GetTermsListForCategory(category);
-        gameUI.SetCategoryText(category);
-        NextImage();
-    }
-
-    public void ClearImages()
-    {
-        if (images.Count == 0) return;
-        foreach(ImageCard imageCard in images)
+        foreach (var cat in categories.CategoriesList)
         {
-            Destroy(imageCard.gameObject);
+            if (cat.CategoryName == category)
+            {
+                currentCategory = cat;
+                break;
+            }
         }
-        images = new List<ImageCard>();
+
+        gameUi.ShowGameUiCanvas();
+        score.ClearScore();
+        gameUi.SetCategoryText(category);
+        NextImage();
     }
 
-    public string GetCategory()
+    public void CrashHandler()
     {
-        return category;
+        gameUi.HideGameUiCanvas();
+        MenuUI.GetInstance().ShowMenuUiCanvas();
     }
 
     private void NextImage()
     {
         int randomNumber = PickRandomCardNumber();
         currentImage = images[randomNumber];
-        currentTerm = pickRandomTerm();
+        currentTerm = PickRandomTerm();
         int count = 0;
         while (CheckIfIgnoreListMatch(currentTerm, currentImage))
         {
-            if (count > 30) 
+            if (count > 30)
             {
                 NextImage();
-                break; 
+                break;
             }
-            currentTerm = pickRandomTerm(); // check if this problem
+
+            currentTerm = PickRandomTerm();
             count++;
         }
-        gameUI.SetNewInfo(currentImage, currentTerm);
+
+        gameUi.SetNewInfo(currentImage, currentTerm);
     }
 
     private bool CheckIfIgnoreListMatch(string lCurrentTerm, ImageCard imageCard)
     {
-        foreach(string term in imageCard.GetIgnoreTerms())
+        List<Category> ignoreCategories = imageCard.IgnoreCategories;
+        foreach (var category in ignoreCategories)
         {
-            if (term == lCurrentTerm)
+            if (category.CategoryName == currentCategory.CategoryName)
             {
-                return true;
+                List<Term> terms = category.Terms;
+                foreach (var term in terms)
+                {
+                    if (term.TermName == lCurrentTerm)
+                    {
+                        return true;
+                    }
+                }
             }
         }
+
         return false;
     }
+
     private int PickRandomCardNumber()
     {
-        int randomnumber = Random.Range(0, images.Count);
-        return randomnumber;
+        int randomNumber = Random.Range(0, images.Count);
+        return randomNumber;
     }
 
-    private string pickRandomTerm()
+    private string PickRandomTerm()
     {
-        int randomnumber = Random.Range(0, terms.Count);
-        return terms[randomnumber];
+        int randomNumber = Random.Range(0, currentCategory.Terms.Count);
+        return currentCategory.Terms[randomNumber].TermName;
     }
 
     public void CheckAnswer(bool isCorrect)
     {
-        gameUI.SetIsButtonsLocked(true);
-        if (CheckIfTermMatch(currentTerm,currentImage) == isCorrect)
+        gameUi.SetIsButtonsLocked(true);
+        if (CheckIfTermMatch(currentTerm, currentImage) == isCorrect)
         {
             score.AddPoints();
+            foreach (var category in categories.CategoriesList.Where(category =>
+                category.CategoryName == currentCategory.CategoryName))
+            {
+                category.Score++;
+            }
         }
         else
         {
+            foreach (var category in categories.CategoriesList.Where(category =>
+                category.CategoryName == currentCategory.CategoryName))
+            {
+                category.Score--;
+            }
             score.SubtractPoints();
         }
+
         NextImage();
     }
+
     public bool CheckIfTermMatch(string lCurrentTerm, ImageCard imageCard)
     {
-        foreach (string term in imageCard.GetTerms())
+        List<Category> lCategories = imageCard.Categories;
+        foreach (var category in lCategories)
         {
-            if (term == lCurrentTerm)
+            if (category.CategoryName == currentCategory.CategoryName)
             {
-                return true;
+                var terms = category.Terms;
+                foreach (var term in terms)
+                {
+                    if (term.TermName == lCurrentTerm) return true;
+                }
             }
         }
+
         return false;
     }
 }

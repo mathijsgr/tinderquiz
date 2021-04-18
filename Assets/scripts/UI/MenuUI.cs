@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,31 +6,32 @@ using UnityEngine.UI;
 
 public class MenuUI : MonoBehaviour
 {
-    private static MenuUI instance;
-
+    private static MenuUI _instance;
     public List<Button> CategoryButtons;
     public Button StartButton;
-    public Button HighScoreButton;
     public Button ExitButton;
 
     public GameObject MenuOptions;
     public GameObject CategoryOptions;
-    public GameObject MenuUICanvas;
+    public GameObject MenuUiCanvas;
 
 
     private void Awake()
     {
-        instance = this;
+        _instance = this;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        foreach (Button button in CategoryButtons)
+        GameLogic.GetInstance().Setup();
+        Categories categories = Categories.GetInstance();
+        List<Category> categoriesList = categories.CategoriesList;
+        for (int i = 0; i < categoriesList.Count; i++)
         {
-            string text = button.transform.GetChild(0).GetChild(0).GetComponent<Text>().text;
-            if (text == null || text == "") return;
-            button.onClick.AddListener(delegate { ButtonClick(text); });
+            Text text = CategoryButtons[i].transform.GetChild(0).GetChild(0).GetComponent<Text>();
+            CategoryButtons[i].onClick.AddListener(delegate { ButtonClick(text.text); });
+            CategoryButtons[i].transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Score: " + categoriesList[i].Score;
         }
         StartButton.onClick.AddListener(StartButtonClick);
         ExitButton.onClick.AddListener(ExitButtonClick);
@@ -38,7 +40,7 @@ public class MenuUI : MonoBehaviour
 
     public static MenuUI GetInstance()
     {
-        return instance;
+        return _instance;
     }
 
     private void ButtonClick (string category)
@@ -46,7 +48,7 @@ public class MenuUI : MonoBehaviour
         GameLogic.GetInstance().NewGame(category);
         CategoryOptions.SetActive(false);
         MenuOptions.SetActive(true);
-        HideMenuUICanvas();
+        HideMenuUiCanvas();
     }
 
     private void StartButtonClick()
@@ -56,16 +58,23 @@ public class MenuUI : MonoBehaviour
     }
     private void ExitButtonClick()
     {
+        SaveLoad.GetInstance().SaveCategories(Categories.GetInstance().CategoriesList);
         Application.Quit();
     }
 
 
-    public void ShowMenuUICanvas()
+    public void ShowMenuUiCanvas()
     {
-        MenuUICanvas.SetActive(true);
+        MenuUiCanvas.SetActive(true);
+        Categories categories = Categories.GetInstance();
+        List<Category> categoriesList = categories.CategoriesList;
+        for (int i = 0; i < categoriesList.Count; i++)
+        {
+            CategoryButtons[i].transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Score: " + categoriesList[i].Score;
+        }
     }
-    public void HideMenuUICanvas()
+    public void HideMenuUiCanvas()
     {
-        MenuUICanvas.SetActive(false);
+        MenuUiCanvas.SetActive(false);
     }
 }

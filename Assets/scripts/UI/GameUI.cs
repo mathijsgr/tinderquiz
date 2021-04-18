@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
-    private static GameUI instance;
+    private static GameUI _instance;
 
     //instances
     private GameLogic gameLogic;
@@ -14,7 +14,7 @@ public class GameUI : MonoBehaviour
     public Image ImageHolder;
 
     //canvas
-    public GameObject GameUICanvas;
+    public GameObject GameUiCanvas;
     public GameObject Border;
 
     //texts
@@ -28,22 +28,15 @@ public class GameUI : MonoBehaviour
     public Button NoButton;
     public Button HomeButton;
 
-    public GameObject GameCompletedPanel;
-    public Button PlayAgainYesButton;
-    public Button PlayAgainNoButton;
-    public Text FinalScoreText;
-
     //prevent too fast clicking
     public bool IsButtonsLocked;
 
     private void Awake()
     {
-        instance = this;
+        _instance = this;
         NoButton.onClick.AddListener(NoButtonClick);
         YesButton.onClick.AddListener(YesButtonClick);
         HomeButton.onClick.AddListener(HomeButtonClick);
-        PlayAgainYesButton.onClick.AddListener(PlayAgainYesButtonClick);
-        PlayAgainNoButton.onClick.AddListener(PlayAgainNoButtonClick);
     }
 
     private void Start()
@@ -54,38 +47,16 @@ public class GameUI : MonoBehaviour
  
     public static GameUI GetInstance()
     {
-        return instance;
+        return _instance;
     }
 
     public void SetNewInfo(ImageCard currentImage, string term)
     {
-        ImageHolder.sprite = currentImage.GetImage();
+        ImageHolder.sprite = currentImage.Image;
         SetTermText(term);
-        SetTitleText(currentImage.GetImageName());
+        SetTitleText(currentImage.ImageName);
         SetScoreText();
         SetIsButtonsLocked(false);
-    }
-
-    //swiped left or right
-    public void SwipeActions(int direction)
-    {
-        switch (direction)
-        {
-            case -1: //down
-                break;
-            case 0: // left - wrong
-                gameLogic.CheckAnswer(false);
-                break;
-            case 1: // up - help
-                if(score.CanBuyHint())
-                    ShowHelpUI();
-                break;
-            case 2: // right - correct
-                gameLogic.CheckAnswer(true);
-                break;
-            default:
-                break;
-        }
     }
 
     public void SetIsButtonsLocked(bool setLock)
@@ -113,40 +84,17 @@ public class GameUI : MonoBehaviour
     }
 
 
-    public void ShowHelpUI()
+    public void ShowHelpUi()
     {
 
     }
 
-    public void ShowGameCompletedUI()
-    {
-        GameCompletedPanel.SetActive(true);
-        FinalScoreText.text = "Eind score: " + score.GetScore();
-        //PlayAgainYesButton.onClick.AddListener(PlayAgainYesButtonClick);
-        //PlayAgainNoButton.onClick.AddListener(PlayAgainNoButtonClick);
-    }
-
-    private void PlayAgainYesButtonClick()
-    {
-        gameLogic.Replay();
-        //PlayAgainYesButton.onClick.RemoveListener(PlayAgainYesButtonClick);
-        GameCompletedPanel.SetActive(false);
-    }
-
-    private void PlayAgainNoButtonClick ()
-    {
-        GameUICanvas.SetActive(false);
-        //PlayAgainNoButton.onClick.RemoveListener(PlayAgainNoButtonClick);
-        GameCompletedPanel.SetActive(false);
-        MenuUI.GetInstance().ShowMenuUICanvas();
-    }
-
-    public void ShowCorrectUI()
+    public void ShowCorrectUi()
     {
 
     }
 
-    public void ShowWrongUI()
+    public void ShowWrongUi()
     {
 
     }
@@ -160,20 +108,19 @@ public class GameUI : MonoBehaviour
     {
         if(!IsButtonsLocked) gameLogic.CheckAnswer(true);
     }
-    public void ShowGameUICanvas()
+    public void ShowGameUiCanvas()
     {
-        GameUICanvas.SetActive(true);
+        GameUiCanvas.SetActive(true);
     }
-    public void HideGameUICanvas()
+    public void HideGameUiCanvas()
     {
-        GameUICanvas.SetActive(false);
+        GameUiCanvas.SetActive(false);
     }
 
     private void HomeButtonClick()
     {
-        gameLogic.ClearImages();
-        HideGameUICanvas();
-        MenuUI.GetInstance().ShowMenuUICanvas();
+        HideGameUiCanvas();
+        MenuUI.GetInstance().ShowMenuUiCanvas();
     }
 
 

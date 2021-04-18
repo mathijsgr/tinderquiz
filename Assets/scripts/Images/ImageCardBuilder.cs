@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,64 +11,35 @@ using Assets.scripts.Images;
 
 public class ImageCardBuilder : MonoBehaviour
 {
-    private static ImageCardBuilder instance;
+    private static ImageCardBuilder _instance;
 
     public TextAsset SettingsTextAsset;
-    private List<Tuple<string, List<string>>> categories = new List<Tuple<string, List<string>>>();
-    public List<string> rawCategories = new List<string>();
-    public List<string> terms = new List<string>();
-    public List<Texture2D> texture2Ds;
-    private int maxRetries = 100;
-    private int currentTries;
-    //private List<string> imageInfos = new List<string>();
-
+    public List<Term> allTerms = new List<Term>();
+    private List<string> rawCategories = new List<string>();
+    private List<string> terms = new List<string>();
+    private string[] lines;
     private int categoriesIndex = 0;
     private int termsIndex = 1;
 
+
     private void Awake()
     {
-        instance = this;
+        _instance = this;
+    }
+
+    private void Start()
+    {
+        lines = GetTextAssetContent().Split("\n"[0]);
+        rawCategories = new List<string>(lines[categoriesIndex].Split("\t"[0]));
+
+        rawCategories.RemoveAt(0);
+        terms = new List<string>(lines[termsIndex].Split("\t"[0]));
+        terms.RemoveAt(0);
     }
 
     public static ImageCardBuilder GetInstance()
     {
-        return instance;
-    }
-
-    private ImageCard CreateMyAsset(string helpText, string[] words, string pickedCategory)
-    {
-        Texture2D image2D = Resources.Load<Texture2D>("Images/" + words[0]);
-        if (image2D == null)
-        {
-            Debug.Log("not found");
-            if (currentTries < maxRetries)
-            {
-                currentTries++;
-                return CreateMyAsset(helpText, words, pickedCategory);
-            }
-            else
-            {
-                currentTries = 0;
-                GameLogic.GetInstance().CrashHandler();
-                return null;
-            }
-        }
-        Sprite image = Sprite.Create(image2D, new Rect(0.0f, 0.0f, image2D.width, image2D.height), new Vector2(0.5f, 0.5f), 100.0f);
-        string imagename = words[0];
-        Tuple<List<string>, List<string>> TermsLists = CreateTermsListsForImageCard(words, pickedCategory);
-        GameObject imageCardGameOject = new GameObject
-        {
-            name = imagename
-        };
-        ImageCard imageCard = imageCardGameOject.AddComponent<ImageCard>();
-        imageCard.setup(imagename, TermsLists.Item1, TermsLists.Item2, image, helpText);
-
-        Image rawImage = imageCardGameOject.AddComponent<Image>();
-        rawImage.sprite = image;
-
-        imageCardGameOject.SetActive(false);
-
-        return imageCardGameOject.GetComponent<ImageCard>();
+        return _instance;
     }
 
     private string GetTextAssetContent()
@@ -75,104 +48,103 @@ public class ImageCardBuilder : MonoBehaviour
         return fileContents;
     }
 
-    private void ClearAll()
+    public List<ImageCard> CreateImageCards()
     {
-        categories = new List<Tuple<string, List<string>>>();
-        rawCategories = new List<string>();
-        terms = new List<string>();
-    }
-
-    public List<ImageCard> CreateImageCards(string pickedCategory)
-    {
-        ClearAll();
         List<ImageCard> imageCards = new List<ImageCard>();
-        string[] lines = GetTextAssetContent().Split("\n"[0]);
-        for (int i = categoriesIndex; i < lines.Length;i++)
+
+        BuildListOfAllCategoriesWithTerms();
+        for (int i = 2; i < lines.Length; i++)
         {
             string[] words = lines[i].Split("\t"[0]);
-            if (i == categoriesIndex)
-            {
-                string lastword = "";
-                for (int j = 0; j < words.Length; j++)
-                {
-                    if (words[j] != "")
-                    {
-                        rawCategories.Add(words[j]);
-                    }
-                    if (words[j] != lastword)
-                    {
-                        categories.Add(new Tuple<string, List<string>>(words[j], null));
-                    }
-                    lastword = words[j];
-                }
-                categories.RemoveAt(categories.Count -1);
-            }
-            else if (i == termsIndex)
-            {
-                for (int j = 1; j < words.Length; j++)
-                {
-                    if (words[j] != "")
-                    {
-                        terms.Add(words[j]);
-                    }
-                }
-            }
-            else
-            {
-                if (words[0] == "") break; //skip if empty
-                imageCards.Add(CreateMyAsset("",words,pickedCategory));
-            }
+
+            if (words[0] == "") break; //skip if empty
+            imageCards.Add(CreateMyAsset("", words));
         }
-        BuildListOfAllCategoriesWithTerms();
         return imageCards;
     }
 
-    public Tuple<List<string>,List<string>> CreateTermsListsForImageCard(string[] words, string pickedCategory)
+    private ImageCard CreateMyAsset(string helpText, string[] words)
     {
-        List<string> localTerms = new List<string>();
-        List<string> localIgnoreTerms = new List<string>();
+        Texture2D image2D = Resources.Load<Texture2D>("Images/" + words[0]);
+        Sprite image = Sprite.Create(image2D, new Rect(0.0f, 0.0f, image2D.width, image2D.height),
+            new Vector2(0.5f, 0.5f), 100.0f);
+        string imagename = words[0];
+        Tuple<List<Category>, List<Category>> termsLists = CreateTermsListsForImageCard(words);
 
-        for (int i = 0; i < rawCategories.Count; i++)
-        {
-            if (pickedCategory == rawCategories[i])
-            {
-                if (words[i +1] == "1") localTerms.Add(terms[i]);
-                if (words[i +1] == "x") localIgnoreTerms.Add(terms[i]);
-            }
-        }
+        ImageCard imageCard = new ImageCard();
+        imageCard.ImageName = imagename;
+        imageCard.Categories = termsLists.Item1;
+        imageCard.IgnoreCategories = termsLists.Item2;
+        imageCard.HelpText = helpText;
+        imageCard.Image = image;
 
-        return new Tuple<List<string>, List<string>>(localTerms, localIgnoreTerms);
+        return imageCard;
     }
 
-    public void BuildListOfAllCategoriesWithTerms()
+    public Tuple<List<Category>, List<Category>> CreateTermsListsForImageCard(string[] words)
     {
-        for (int i = 0; i < categories.Count; i++)
+        List<Category> localCategories = new List<Category>();
+        List<Category> localIgnoreCategories = new List<Category>();
+        words = words.Skip(1).ToArray();
+
+        foreach (Category category in Categories.GetInstance().CategoriesList)
         {
-            List<string> localTerms = new List<string>();
-            for (int j = 0; j < terms.Count; j++)
+            List<Term> terms = new List<Term>();
+            List<Term> ignoreTerms = new List<Term>();
+            for (int i = 0; i < words.Length; i++)
             {
-                if (categories[i].Item1 == rawCategories[j])
+                if (rawCategories[i] == category.CategoryName)
                 {
-                    localTerms.Add(terms[j]);
+                    if (words[i] == "1") terms.Add(allTerms[i]);
+                    if (words[i] == "x") ignoreTerms.Add(allTerms[i]);
                 }
             }
-            categories[i] = new Tuple<string, List<string>>(categories[i].Item1, localTerms);
+
+            localCategories.Add(new Category
+            {
+                CategoryName = category.CategoryName,
+                Terms = terms
+            });
+            localIgnoreCategories.Add(new Category
+            {
+                CategoryName = category.CategoryName,
+                Terms = ignoreTerms
+            });
         }
-    }
-    public List<Tuple<string, List<string>>> GetListOfAllCategoriesWithTerms()
-    {
-        return categories;
+
+        return new Tuple<List<Category>, List<Category>>(localCategories, localIgnoreCategories);
     }
 
-    public List<string> GetTermsListForCategory(string pickedCategory)
+    public List<Category> BuildListOfAllCategoriesWithTerms()
     {
-        foreach (Tuple<string, List<string>> category in categories)
+        string lastWord = "";
+        List<Category> categories = new List<Category>();
+        foreach (string category in rawCategories)
         {
-            if (category.Item1 == pickedCategory)
+            if (lastWord != category)
             {
-                return category.Item2;
+                categories.Add(new Category
+                {
+                    CategoryName = category
+                });
+                lastWord = category;
             }
         }
-        return null;
+
+        categories.RemoveAt(categories.Count - 1);
+        foreach (Category category in categories)
+        {
+            for (int i = 0; i < rawCategories.Count; i++)
+            {
+                if (rawCategories[i] == category.CategoryName)
+                {
+                    Term term = new Term {TermName = terms[i]};
+                    category.Terms.Add(term);
+                    allTerms.Add(term);
+                }
+            }
+        }
+
+        return categories;
     }
 }

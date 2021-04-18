@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class Score : MonoBehaviour
 {
-    private static Score instance;
+    private static Score _instance;
 
     private int score = 0;
     private int hintCost = 0;
 
     private void Awake()
     {
-        instance = this;
+        _instance = this;
     }
 
     public static Score GetInstance()
     {
-        return instance;
+        return _instance;
     }
 
     public void AddPoints()
@@ -45,15 +45,5 @@ public class Score : MonoBehaviour
     public bool CanBuyHint()
     {
         return score > hintCost;
-    }
-
-    public void Save()
-    {
-        //TODO: Save game
-    }
-
-    public void Load()
-    {
-        //TODO: Load game
     }
 }

@@ -8,7 +8,7 @@ public class TouchControl : MonoBehaviour
     // Start is called before the first frame update
 
     //imagedrag
-    public Image image;
+    public Image Image;
     public GameObject Border;
     private Vector3 imageCenter;
     private float speed = 8f;
@@ -67,7 +67,7 @@ public class TouchControl : MonoBehaviour
 
     public void UpdateImage(Image image)
     {
-        this.image = image;
+        this.Image = image;
         imageCenter = image.transform.position;
         RectTransform rectTransform = Border.GetComponent<RectTransform>();
         leftBoundary = rectTransform.rect.position.x - rectTransform.rect.width /2;
