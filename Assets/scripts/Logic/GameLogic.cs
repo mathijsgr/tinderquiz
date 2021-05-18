@@ -1,114 +1,48 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.scripts.Images;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameLogic : MonoBehaviour
 {
-    private static GameLogic _instance;
-    private Score score;
-    private List<ImageCard> images;
-    private ImageCard currentImage;
-    private Category currentCategory;
-    private string currentTerm;
-    private GameUI gameUi;
-    private ImageCardBuilder imageCardBuilder;
-    private SaveLoad saveLoad;
-    private Categories categories;
+    protected List<ImageCard> images;
+    protected ImageCard currentImage;
+    protected Category currentCategory;
+    protected Term currentTerm;
+    protected GameUI gameUi;
+    protected ImageCardBuilder imageCardBuilder;
+    protected Categories categories;
 
-    private void Awake()
-    {
-        _instance = this;
-    }
-
-    public void Setup()
-    {
-        score = Score.GetInstance();
-        gameUi = GameUI.GetInstance();
-        saveLoad = SaveLoad.GetInstance();
-        MenuUI.GetInstance().ShowMenuUiCanvas();
-        imageCardBuilder = ImageCardBuilder.GetInstance();
-        categories = Categories.GetInstance();
-
-        List<Category> lCategories = saveLoad.LoadCategories();
-        if (lCategories.Count > 0)
-        {
-            categories.CategoriesList = lCategories;
-        }
-        else categories.CategoriesList = imageCardBuilder.BuildListOfAllCategoriesWithTerms();
-
-        images = imageCardBuilder.CreateImageCards();
-    }
-
-    public static GameLogic GetInstance()
-    {
-        return _instance;
-    }
-
-    public void NewGame(string category)
-    {
-        foreach (var cat in categories.CategoriesList)
-        {
-            if (cat.CategoryName == category)
-            {
-                currentCategory = cat;
-                break;
-            }
-        }
-
-        gameUi.ShowGameUiCanvas();
-        score.ClearScore();
-        gameUi.SetCategoryText(category);
-        NextImage();
-    }
-
-    public void CrashHandler()
-    {
-        gameUi.HideGameUiCanvas();
-        MenuUI.GetInstance().ShowMenuUiCanvas();
-    }
-
-    private void NextImage()
+    public virtual void NextImage()
     {
         int randomNumber = PickRandomCardNumber();
         currentImage = images[randomNumber];
         currentTerm = PickRandomTerm();
         int count = 0;
-        while (CheckIfIgnoreListMatch(currentTerm, currentImage))
+        while (CheckIfIgnoreListMatch(currentTerm.TermName, currentImage))
         {
             if (count > 30)
             {
                 NextImage();
                 break;
             }
-
             currentTerm = PickRandomTerm();
             count++;
         }
 
-        gameUi.SetNewInfo(currentImage, currentTerm);
+        SetNewInfo();
+    }
+
+    protected virtual void SetNewInfo()
+    {
+        gameUi.SetNewInfo(currentImage, currentTerm, currentCategory.Score, currentCategory);
     }
 
     private bool CheckIfIgnoreListMatch(string lCurrentTerm, ImageCard imageCard)
     {
         List<Category> ignoreCategories = imageCard.IgnoreCategories;
-        foreach (var category in ignoreCategories)
-        {
-            if (category.CategoryName == currentCategory.CategoryName)
-            {
-                List<Term> terms = category.Terms;
-                foreach (var term in terms)
-                {
-                    if (term.TermName == lCurrentTerm)
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
+        return ignoreCategories.Where(category => category.CategoryName == currentCategory.CategoryName).SelectMany(category => category.Terms).Any(term => term.TermName == lCurrentTerm);
     }
 
     private int PickRandomCardNumber()
@@ -117,22 +51,38 @@ public class GameLogic : MonoBehaviour
         return randomNumber;
     }
 
-    private string PickRandomTerm()
+    private Term PickRandomTerm()
     {
         int randomNumber = Random.Range(0, currentCategory.Terms.Count);
-        return currentCategory.Terms[randomNumber].TermName;
+        Term term = currentCategory.Terms[randomNumber];
+        int randomNumber2 = Random.Range(0, 100);
+        int count = 0;
+        while (term.Score < randomNumber2)
+        {
+            if (count == 30) return term;
+            randomNumber = Random.Range(0, currentCategory.Terms.Count);
+            term = currentCategory.Terms[randomNumber];
+            randomNumber2 = Random.Range(0, 10);
+            count++;
+        }
+
+        return currentCategory.Terms[randomNumber];
     }
 
-    public void CheckAnswer(bool isCorrect)
+    public virtual void CheckAnswer(bool isCorrect)
     {
         gameUi.SetIsButtonsLocked(true);
-        if (CheckIfTermMatch(currentTerm, currentImage) == isCorrect)
+        if (CheckIfTermMatch(currentTerm.TermName, currentImage) == isCorrect)
         {
-            score.AddPoints();
             foreach (var category in categories.CategoriesList.Where(category =>
                 category.CategoryName == currentCategory.CategoryName))
             {
                 category.Score++;
+                gameUi.ShowAnswerImage(true);
+                if (currentTerm.Score < 9)
+                {
+                    currentTerm.Score++;
+                }
             }
         }
         else
@@ -140,29 +90,19 @@ public class GameLogic : MonoBehaviour
             foreach (var category in categories.CategoriesList.Where(category =>
                 category.CategoryName == currentCategory.CategoryName))
             {
-                category.Score--;
+                gameUi.ShowAnswerImage(false);
+                if (category.Score > 0)
+                {
+                    category.Score--;
+                }
+                if (currentTerm.Score > 0) currentTerm.Score--;
             }
-            score.SubtractPoints();
         }
-
-        NextImage();
     }
 
     public bool CheckIfTermMatch(string lCurrentTerm, ImageCard imageCard)
     {
         List<Category> lCategories = imageCard.Categories;
-        foreach (var category in lCategories)
-        {
-            if (category.CategoryName == currentCategory.CategoryName)
-            {
-                var terms = category.Terms;
-                foreach (var term in terms)
-                {
-                    if (term.TermName == lCurrentTerm) return true;
-                }
-            }
-        }
-
-        return false;
+        return lCategories.Where(category => category.CategoryName == currentCategory.CategoryName).SelectMany(category => category.Terms).Any(term => term.TermName == lCurrentTerm);
     }
 }

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.scripts.Images
 {
     public class ImageCard
     {
-        public string ImageName;
+        public string Title;
         public List<Category> Categories;
         public List<Category> IgnoreCategories;
         public Sprite Image;
         public string HelpText;
+        public string SubTitle;
     }
 }
