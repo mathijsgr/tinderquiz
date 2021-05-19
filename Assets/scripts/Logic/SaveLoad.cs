@@ -1,14 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using Assets.scripts.Images;
 using UnityEngine;
 
 public class SaveLoad : MonoBehaviour
@@ -64,5 +57,46 @@ public class SaveLoad : MonoBehaviour
         }
 
         return categories;
+    }
+
+    public int LoadTotalScore()
+    {
+        string destination = Application.persistentDataPath + "/score.dat";
+        if (!File.Exists(destination))
+        {
+            return 0;
+        }
+
+        int score = 0;
+        using (Stream stream = File.Open(destination, FileMode.Open))
+        {
+            BinaryFormatter bin = new BinaryFormatter();
+
+            try
+            {
+                score = (int)bin.Deserialize(stream);
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+        }
+
+        return score;
+    }
+
+    public void SaveTotalScore(int score)
+    {
+        string destination = Application.persistentDataPath + "/score.dat";
+
+        if (File.Exists(destination))
+        {
+            File.Delete(destination);
+        }
+        using (Stream stream = File.Open(destination, FileMode.Create))
+        {
+            BinaryFormatter bin = new BinaryFormatter();
+            bin.Serialize(stream, score);
+        }
     }
 }

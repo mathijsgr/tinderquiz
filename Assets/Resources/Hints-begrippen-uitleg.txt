@@ -1,0 +1,69 @@
+Centrale compositie	Bij een centrale compositie staat het belangrijkste element in het midden van het beeldvlak.
+Asymmetrische compositie	Als de elementen (onderdelen) niet in spiegelbeeld geordend zijn.
+Symmetrische compositie	Als de elementen (onderdelen) wel in spiegelbeeld geordend zijn.
+Driehoekscompositie	Een compositie waarbij vormen, kleuren en lijnen zo geordend zijn dat er een driehoek als grondvorm ontstaat.
+Statische compositie	In een statische compositie (stilstaand of rust) ontstaat rust wanneer de onderdelen van de compositie met elkaar in evenwicht zijn.
+Dynamische compositie	Een compositie die beweging uitstraalt door verschillende vormen en wisselende richtingen.
+Overall compositie	Een overall compositie houdt in dat de beeldelementen zonder enige rangorde op het vlak geplaatst zijn. De elementen doen patroonachtig aan en lijken buiten het schilderij tot in het oneindige door te kunnen gaan.
+Diagonale compositie	Een compositie waarbij vormen, kleuren en lijnen zo geordend zijn dat er een diagonale richting ontstaat (/ of \)
+Ritme	Ritme in een kunstwerk wordt bereikt wanneer één of meerdere elementen min of meer regelmatig worden herhaald, waarmee een gevoel van organisatie wordt bereikt. Het gaat dan om volledig identieke of vergelijkbare beeldelementen.
+Beweging	Bij deze compositie lijken bepaalde lijnen een beweging vertonen. Van een werkelijke beweging is geen sprake en dat noemt men illusie
+Verticale compositie	Bij een verticale compositie plaats je alle vormen met de langste zijde in verticale richting, haaks op de horizon.
+Horizontale compositie	Wanneer je een horizontale compositie bekijkt dan krijg je de indruk alsof er een beweging ontstaat van links naar rechts over het vlak. Door alle elementen met hun langste zijde in horizontale richting te plaatsen (gelijk aan de horizon) ontstaat er een horizontale compositie.
+Meelicht	"Bij meelicht (ook wel ‘frontaal licht’) kijkt de toeschouwer in dezelfde richting als het licht schijnt., De lichtbron kan zich zowel vóór als achter de kijker bevinden; bij meelicht is er geen uitgesproken eigen schaduw."
+Zijlicht	Zijlicht is wanneer de lichtbron zich aan de zijkant het voorwerp bevindt. Eigen schaduw en slagschaduw zijn dan duidelijk te zien, waardoor deze belichting zorgt voor een duidelijke plasticiteit.
+Tegenlicht	Tegenlicht is wanneer de lichtbron zich recht voor de beschouwer bevindt en tegen de kijkrichting in schijnt. De belichte voorwerpen zijn als een silhouet te zien.
+Strijklicht	Licht dat zijwaarts (bijna parallel) op het onderwerp van de foto valt. Het 'strijkt' als het ware langs het onderwerp, waardoor alle oneffenheden extra geaccentueerd worden.
+Eigen schaduw	Eigen schaduw is de schaduw die op het object aanwezig is of de niet belichte kant van het voorwerp.
+Slagschaduw	Een slagschaduw (ook  wel ‘schim’) is de schaduw die een object werpt op een ondergrond of een ander voorwerp.
+Lichtreflectie	Licht dat op een materiaal of voorwerp valt, kan worden gereflecteerd of geabsorbeerd. Reflectie betekent dat de energie van de straling wordt teruggekaatst.
+Diffuus licht	Diffuus licht is licht dat niet evenwijdig loopt, het lijkt van verschillende kanten te komen (vaak bij bewolking). Ook zijn er geen duidelijke schaduwen. (Een schaduw ontstaat als het licht van een lichtbron geheel of gedeeltelijk wordt tegengehouden door een voorwerp.)
+Direct licht	Direct licht kenmerkt zich doordat alle stralen min of meer evenwijdig aan elkaar lopen. Een schaduw van een object veroorzaakt door direct licht heeft een scherpe rand of overgang.
+Glimlicht	Glimlicht is een glanzende lichte vlek. Deze lichte vlek ontstaat als er veel licht wordt teruggekaatst. (In striptekeningen wordt het glimlicht als een witte vlek getekend).
+Clair-obscur	Clair-obscur is een techniek uit de schilderkunst, film en fotografie waarbij de licht-donkercontrasten sterker worden uitgebeeld dan ze in werkelijkheid vaak zijn. Dit zorgt voor een dramatisch effect. Vaak is de lichtbron niet zichtbaar in het beeldvlak.
+Silhouet	Clair-obscur is een techniek uit de schilderkunst, film en fotografie waarbij de licht-donkercontrasten sterker worden uitgebeeld dan ze in werkelijkheid vaak zijn. Dit zorgt voor een dramatisch effect. Vaak is de lichtbron niet zichtbaar in het beeldvlak.
+Omklapping	De verschillende aanzichten, die even belangrijk zijn, worden allemaal zichtbaar gemaakt. Daarbij worden bijvoorbeeld vormen die rechtop zouden moeten staan horizontaal omgeklapt. Dit zie je vaak in kindertekeningen of in primitieve schilderkunst.
+Stapeling	De objecten worden in lagen boven elkaar 'gestapeld'. De objecten die laag staan 'lijken' zo dichtbij en de objecten die hoog in de afbeelding staan 'lijken' ver weg, ondanks dat de objecten meestal niet van grootte verschillen.
+Groot-klein	De dingen op de voorgrond zijn groot, verder weg kleiner.
+Overlapping	Overlapping wil zeggen dat vormen of kleuren over elkaar heen zijn getekend of gezet.
+Afsnijding	Het kader overlapt de vormen, de beschouwer maakt de vormen in gedachte af.
+Plans	De ruimte wordt in lagen opgedeeld. De schilder maakt gebruik van een voorplan en een achterplan, soms een middenplan. Elk plan heeft een eigen sfeer, lichtheid en stijl van vormgeving.
+Plasticiteit	Plasticiteit is de mate aan dieptewerking, veroorzaakt door licht- en schaduwwerking.
+Trompe l'oeil	Trompe-l'oeil is een techniek in de beeldende kunst waarbij opzettelijk een optische illusie wordt gecreëerd.
+Vogelvluchtperspectief	"Vogelvluchtperspectief of vogelperspectief is de vorm van perspectief waarbij het object vanaf een veel hoger punt bezien wordt dan de locatie van het object, zoals een vogel het ziet die hoog in de lucht vliegt. Het zichtpunt (""ons oog"") is op grote hoogte en op grote afstand van het object."
+Kikvorsperspectief	"Bij een kikvorsperspectief wordt onderwerp bekeken vanuit een heel laag standpunt. Je kijkt tegen het onderwerp op; net zoals een kikker tegen de mens op kijkt."
+Ooghoogte	Bij een kunstwerk op ooghoogte bevindt het onderwerp van het kunstwerk zich op een gelijke hoogte, zoals een normaal mens tegen het onderwerp aankijkt
+Kleurperspectief	Kleurperspectief is het verschijnsel dat met kleuren een dieptewerking in een kunstwerk kan worden verkregen.
+Repoussoir	Een repoussoir is een schildertechniek waarbij met opzet een voorwerp in de voorgrond van een schilderij wordt geplaatst, om de illusie van diepte te vergroten. Een repoussoir is ten opzichte van de rest van het schilderij donker van kleur, en bedekt een gedeelte van de voorstelling.
+Atmosferisch perspectief	Atmosferisch perspectief is een schildertechniek waar vooral door het gebruik van kleur een indruk van diepte in het schilderij kan worden gebracht. Hoe verder op de achtergrond, hoe koeler grijsblauw de tinten en hoe vager de vormen worden.
+Lijnperspectief	Als er lijnperspectief in een afbeelding aanwezig is, gaan alle lijnen naar een verdwijnpunt op de horizon waardoor er meer ruimtelijkheid komt.
+Verkleining	Ruimtesuggestie door objecten in de voorgrond groot en verder weg kleiner weer te geven.
+Verkorting	Verkorting is een term uit de schilderkunst, waarmee wordt aangeduid dat een lichaamsdeel of een ander voorwerp dat naar de schilder toe wijst of ervandaan, door de werking van het perspectief sterk wordt verkort.
+Doorkijk	Je kijkt als toeschouwer door bijvoorbeeld een raam of deur naar binnen. Het tafereel wordt hierdoor gedeeltelijk overlapt door bijvoorbeeld een muur en het raam.
+Complementair kleurcontrast	Complementair contrast ontstaat door kleuren naast elkaar te zetten die in de kleurencirkel recht tegenover elkaar staan.
+Licht/donker contrast	Dit contrast heeft alles te maken met de helderheid van verschillende kleuren. Het duidelijkste voorbeeld van een licht-donker contrast is natuurlijk zwart tegenover wit. Maar ook heel donkerblauw tegenover heel lichtblauw is een licht-donker tegenstelling. Ook kan je spreken van een licht-donker contrast wanneer je twee verschillende kleuren gebruikt.
+Kwaliteitscontrast	Het kwaliteitscontrast is het contrast tussen heldere, verzadigde kleuren, en matte, troebele kleuren.
+Warm/koud contrast	Het warm-koud contrast wordt veroorzaakt doordat sommige kleuren, vooral in de kleurencirkel rond de kleur rood gelegen, een warme indruk maken. Andere kleuren, rondom de kleur blauw, maken een koude indruk.
+Realistisch kleurgebruik	Kleurgebruik waarbij de kleuren zo realistisch mogelijk gehouden worden, dus kleurgebruik hoe het in de realiteit of natuur ook is.
+Decoratief kleurgebruik	Decoratief kleurgebruik is het gebruik van kleur als decoratie, dus als versiering.
+Monochroom kleurgebruik	"Monochroom betekent in één kleur. Maar als de term ""monochroom"" iets wordt uitgebreid naar een werk met wel enige kleurnuances, verschillende tinten van één kleur, is dat ook monochroom in de kunst."
+Symbolisch kleurgebruik	"Symbolisch kleurgebruik is het toepassen van kleuren met een bepaalde betekenis; bijv. rood voor liefde, groen voor hoop, wit voor maagdelijkheid."
+Expressief kleurgebruik	Wanneer kleuren gebruikt worden om een emotie/expressie uit te drukken. Expressief komt van het woord expressie dat uitdrukking betekent. Met kleuren kun je gevoelens uitdrukken.
+Ruimte versterkend kleurgebruik	Het inzetten van kleur om het gevoel van ruimte/driedimensionaliteit te vergroten, door koudere kleuren op de achtergrond te gebruiken.
+Geometrische vorm	Geometrische vormen zijn alle vormen, die je met behulp van passer en liniaal kunt construeren.
+Organische vorm	"De vormen zijn afgeleid van natuurlijke vormen; plantaardige, dierlijke en menselijke vormen. Ze lijken op natuurlijke wijze te zijn gegroeid. De vormen zijn vaak rond, vloeiend."
+Expressieve vorm	Vormen die de ruimte eromheen doorboren.
+Realistische vorm	Is vormgebruik waarbij de vormen zo realistisch mogelijk gehouden worden, dus vormgebruik hoe het in de realiteit ook is.
+Abstract	Bij abstractie wordt vooral een structuur, een gevoel of een idee in een kunstwerk vertolkt waarbij de waarneembare werkelijkheid niet meer te herkennen is. Kunstwerk zonder voorstelling.
+Geïdealiseerd	Iets dat volmaakt is, het voldoet aan het ideaal. Het is perfect.
+Gestileerd	Een vorm die is vereenvoudigd doordat details zijn weggelaten.
+Open vorm	"Vorm waarvan het oppervlak niet gesloten is, maar openingen heeft of transparant is; de omringende ruimte en de ruimte in de openingen bepalen mede de vorm."
+Gesloten vorm	Vorm waarvan het oppervlak gesloten is en massief is of massief aandoet.
+Symmetrische vorm	Beide helften van de vorm zijn gelijk aan elkaar.
+Asymmetrische vorm	Als je de vorm in twee helften verdeelt, zijn deze niet spiegelbeeldig.
+3D	Een kunstwerk dat ruimte inneemt.
+2D	Een plat kunstwerk.
+Gedeformeerd	Het veranderen van herkenbare vormen, zodat ze duidelijk verschillen van de werkelijkheid.
+Kwantiteitscontrast	Het kwantiteitscontrast betekent dat er een sterk en als spannend ervaren contrastverschil kan ontstaan door de kleuren in zeer verschillende hoeveelheden te gebruiken. Bijvoorbeeld door twee kleine vlakjes blauw in een groot oranje veld toe te passen
+Enkelvoudige vorm	Een vorm die uit één stuk bestaat.
+Samengestelde vorm	Een vorm die uit meer verschillende vormen is opgebouwd of samengesteld. 
